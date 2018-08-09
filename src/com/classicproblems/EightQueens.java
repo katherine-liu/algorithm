@@ -4,43 +4,42 @@ public class EightQueens {
     public static void main (String[] args) {
         EightQueens eightQueens = new EightQueens();
         int[] queens = new int[8];
-//        eightQueens.queens(8, 0, queens);
-        eightQueens.queens1(8, 0, queens);
+        int count = 0;
+        eightQueens.queens(8, 0, queens, count);
+//        eightQueens.queens1(8, 0, queens);
     }
 
-    boolean hasResult = false;
-    int count = 0;
 //    for all valid results
-    public void queens (int n, int currentRow, int[] results) {
+    public int queens (int n, int currentRow, int[] results, int count) {
         if (currentRow == n) {
             count++;
             System.out.println("The " + count + "th result is ");
             print(results);
-            return;
+            return count;
         }
         for (int i = 0; i < n; i++) {
             results[currentRow] = i;
             if (isValid(currentRow, results)) {
-                queens(n, currentRow + 1, results);
+                count = queens(n, currentRow + 1, results, count);
             }
         }
+        return count;
     }
 
 //    for the first valid result
-    public void queens1 (int n, int currentRow, int[] results) {
+    public boolean queens1 (int n, int currentRow, int[] results) {
         if (currentRow == n) {
-            hasResult = true;
             print(results);
-            return;
+            return true;
         }
 //        loop columns
         for (int i = 0; i < n; i++) {
-            if (hasResult) break;
             results[currentRow] = i;
             if (isValid(currentRow, results)) {
-                queens1(n, currentRow + 1, results);
+                if (queens1(n, currentRow + 1, results)) return true;
             }
         }
+        return false;
     }
 
     public boolean isValid (int row, int[] results) {
